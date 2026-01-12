@@ -13,6 +13,17 @@ export async function userExist(email)
 
 }
 
+export async function findUserById(id)
+{
+    try {
+        const user=await User.findById(id);
+        return user;
+    } catch (error) {
+        console.log("Error in repository layer at finding user by id ",error);
+        throw error;
+    }
+}
+
 export async function createUser({name,email,password})
 {
     try {
