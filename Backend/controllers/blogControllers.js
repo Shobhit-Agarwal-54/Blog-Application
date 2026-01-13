@@ -1,29 +1,38 @@
 import Blog from "../models/Blog.js";
 import { findUserById } from "../repository/user.js";
 import { createBlog, filterBlogs, findBlogById } from "../repository/blog.js";
-// CREATE
-export const createBlog = async (req, res) => {
-  const { title, category, content, image } = req.body;
 
-  const user=await findUserById(req.user.id);
-
-  const blog = await createBlog({
-    title,
-    category,
-    content,
-    image,
-    author: user.name,
-    userId: user._id
+export const createBlogs = async (req, res) => {
+  try {
+    const { title, category, content, image } = req.body;
+  
+    const user=await findUserById(req.user.id);
+    console.log(req.user.id);
+    const blog = await createBlog({
+      title,
+      category,
+      content,
+      image,
+      author: user.name,
+      userId: user._id
+    });
+  
+   return res.status(201).json({
+      message:"Blog Created Successfully",
+      success:true,
+      blog
   });
-
- return res.status(201).json({
-    message:"Blog Created Successfully",
-    success:true,
-    blog
-});
+    
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      error,
+      message:"Error in creating blog"
+    })
+  }
 };
 
-// READ ALL + FILTER
+
 export const getBlogs = async (req, res) => {
   const { category, author } = req.query;
 
@@ -38,6 +47,20 @@ export const getBlogs = async (req, res) => {
     blogs,
   });
 };
+export const getBlog=async (req,res)=>{
+  const blog = await findBlogById(req.params.id);
+        if (!blog)
+      return res.status(404).json({
+    message: "Blog not found",
+    success:false
+    
+    });
+ return res.status(201).json({
+    message:"Blog fetched successfully",
+    blog,
+    success:true
+ });
+}
 
 // UPDATE
 export const updateBlog = async (req, res) => {
@@ -66,7 +89,7 @@ export const updateBlog = async (req, res) => {
  });
 };
 
-// DELETE
+
 export const deleteBlog = async (req, res) => {
  const blog = await findBlogById(req.params.id);
 

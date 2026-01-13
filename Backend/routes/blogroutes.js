@@ -1,16 +1,18 @@
 import express from "express";
 import { protect } from "../middleware/authMiddleware.js";
 import {
-  createBlog,
+  createBlogs,
   getBlogs,
   updateBlog,
-  deleteBlog
+  deleteBlog,
+  getBlog
 } from "../controllers/blogControllers.js";
 
 const router = express.Router();
 
 router.get("/", protect, getBlogs);
-router.post("/", protect, createBlog);
+router.get("/:id",protect,getBlog)
+router.post("/", protect, createBlogs);
 router.put("/:id", protect, updateBlog);
 router.delete("/:id", protect, deleteBlog);
 

@@ -30,7 +30,7 @@ export const signup = async (req, res) => {
     }
 };
 
-export const login = async (req, res) => {
+export  const login = async (req, res) => {
     try {
         const { email, password } = req.body;
       
@@ -51,15 +51,17 @@ export const login = async (req, res) => {
              message: "Invalid credentials! Passwords does not match" 
             });
       
-          const token= createJWT(user._id);
+          const token= await createJWT(user._id);
       
         return res.status(200).json({
              token,
+             user,
              success:true,
              message:"Login Successful"
              });
         
     } catch (error) {
+        console.log(error);
         return res.status(500).json({
             success:false,
             message:"Login failed",

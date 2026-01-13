@@ -9,11 +9,12 @@ const CreateBlog = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // POST /blogs [cite: 45]
+      
       await API.post('/blogs', formData);
-      alert('Blog created successfully'); // [cite: 67]
+      alert('Blog created successfully'); 
       navigate('/');
     } catch (err) {
+        console.log(err);
       alert('Error creating blog');
     }
   };

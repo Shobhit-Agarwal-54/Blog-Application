@@ -9,10 +9,10 @@ const Home = () => {
 
   const fetchBlogs = async () => {
     try {
-      // GET /blogs?category=...&author=... [cite: 43]
       const url = `/blogs?category=${category}&author=${author}`;
       const { data } = await API.get(url);
-      setBlogs(data);
+      console.log(data);
+      setBlogs(data.blogs);
     } catch (err) {
       console.error(err);
     }
@@ -20,7 +20,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchBlogs();
-  }, [category, author]); // Re-fetch when filters change
+  }, [category, author]); 
 
   return (
     <div className="p-8">
